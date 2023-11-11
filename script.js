@@ -43,6 +43,9 @@ function showWeather(position) {
                 <p>Temperature: ${Math.round(data.list[0].main.temp - 273.15)}°C</p>
                 <p>Condition: ${data.list[0].weather[0].description}</p>
                 
+                <h2>Next 24 Hours Forecast</h2>
+                ${formatNext24HoursForecast(data.list)}
+                
                 <h2>5-Day Forecast</h2>
                 ${formatFiveDayForecast(data.list)}
             `;
@@ -50,6 +53,22 @@ function showWeather(position) {
         .catch(error => {
             console.error('Error fetching weather data:', error);
         });
+}
+
+function formatNext24HoursForecast(list) {
+    let forecastHtml = '';
+    const now = new Date();
+
+    for (const forecast of list) {
+        const forecastTime = new Date(forecast.dt_txt);
+
+        // Check if the forecast time is within the next 24 hours
+        if (forecastTime > now && forecastTime <= new Date(now.getTime() + 24 * 60 * 60 * 1000)) {
+            forecastHtml += `<p>${formatForecast(forecast)}</p>`;
+        }
+    }
+
+    return forecastHtml;
 }
 
 function formatFiveDayForecast(list) {
