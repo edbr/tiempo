@@ -36,11 +36,23 @@ function showWeather(position) {
 function formatFiveDayForecast(list) {
     let forecastHtml = '';
 
-    for (let i = 0; i < list.length; i += 8) {
-        const forecast = list[i];
-        forecastHtml += `
-            <p>${formatForecast(forecast)}</p>
-        `;
+    // Keep track of the current day
+    let currentDay = '';
+
+    // Iterate over the forecast data
+    for (const forecast of list) {
+        const date = forecast.dt_txt.split(' ')[0];
+
+        // Check if it's a new day
+        if (date !== currentDay) {
+            // Update the current day
+            currentDay = date;
+
+            // Display the forecast for the current day
+            forecastHtml += `
+                <p>${formatForecast(forecast)}</p>
+            `;
+        }
     }
 
     return forecastHtml;

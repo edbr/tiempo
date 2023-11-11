@@ -1,7 +1,4 @@
-deploy
-
 cd your-repo
 git add .
-git commit -m "1.2"
+git commit -m "1.4"
 git push origin main
-
