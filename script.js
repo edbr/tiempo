@@ -24,15 +24,26 @@ function showWeather(position) {
                 <p>Temperature: ${Math.round(data.list[0].main.temp - 273.15)}°C</p>
                 <p>Condition: ${data.list[0].weather[0].description}</p>
                 
-                <h2>3-Day Forecast</h2>
-                <p>${formatForecast(data.list[8])}</p>
-                <p>${formatForecast(data.list[16])}</p>
-                <p>${formatForecast(data.list[24])}</p>
+                <h2>5-Day Forecast</h2>
+                ${formatFiveDayForecast(data.list)}
             `;
         })
         .catch(error => {
             console.error('Error fetching weather data:', error);
         });
+}
+
+function formatFiveDayForecast(list) {
+    let forecastHtml = '';
+
+    for (let i = 0; i < list.length; i += 8) {
+        const forecast = list[i];
+        forecastHtml += `
+            <p>${formatForecast(forecast)}</p>
+        `;
+    }
+
+    return forecastHtml;
 }
 
 function formatForecast(forecast) {
