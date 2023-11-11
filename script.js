@@ -11,7 +11,7 @@ function getWeatherByLocation() {
 
     // Use a geocoding service to convert location input to latitude and longitude
     // Replace 'YOUR_GEOCODING_API_KEY' with your actual API key
-    const geocodingApiKey = 'YOUR_GEOCODING_API_KEY';
+    const geocodingApiKey = 'AIzaSyAzC_nKWsvUzMyleDJr_pdhXPCZXWG3koQ';
     const geocodingApiUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(locationInput)}&key=${geocodingApiKey}`;
 
     fetch(geocodingApiUrl)
