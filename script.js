@@ -6,6 +6,25 @@ function getLocation() {
     }
 }
 
+function getWeatherByLocation() {
+    const locationInput = document.getElementById('location').value;
+
+    // Use a geocoding service to convert location input to latitude and longitude
+    // Replace 'YOUR_GEOCODING_API_KEY' with your actual API key
+    const geocodingApiKey = 'YOUR_GEOCODING_API_KEY';
+    const geocodingApiUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(locationInput)}&key=${geocodingApiKey}`;
+
+    fetch(geocodingApiUrl)
+        .then(response => response.json())
+        .then(geocodingData => {
+            const location = geocodingData.results[0].geometry.location;
+            showWeather({ coords: { latitude: location.lat, longitude: location.lng } });
+        })
+        .catch(error => {
+            console.error('Error fetching geocoding data:', error);
+        });
+}
+
 function showWeather(position) {
     const latitude = position.coords.latitude;
     const longitude = position.coords.longitude;
@@ -35,23 +54,14 @@ function showWeather(position) {
 
 function formatFiveDayForecast(list) {
     let forecastHtml = '';
-
-    // Keep track of the current day
     let currentDay = '';
 
-    // Iterate over the forecast data
     for (const forecast of list) {
         const date = forecast.dt_txt.split(' ')[0];
 
-        // Check if it's a new day
         if (date !== currentDay) {
-            // Update the current day
             currentDay = date;
-
-            // Display the forecast for the current day
-            forecastHtml += `
-                <p>${formatForecast(forecast)}</p>
-            `;
+            forecastHtml += `<p>${formatForecast(forecast)}</p>`;
         }
     }
 
